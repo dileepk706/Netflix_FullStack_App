@@ -2,10 +2,26 @@ import styled from "styled-components"
 import Header from "../components/Header"
 import BackgroundImage from "../components/BackgroundImage"
 import { useState } from "react"
-
+import {createUserWithEmailAndPassword,onAuthStateChanged,} from "firebase/auth";
+import { firebaseAuth } from "../utils/firebase-config";
+import { useNavigate } from "react-router-dom";
 const Signup = () => {
+    const navigate=useNavigate()
     let [showPassword,setShowPassword]=useState(false)
-    let [formVal,setFormVal]=useState({name:'',password:''})
+    let [formVal,setFormVal]=useState({email:'',password:''})
+    const loginHelper=()=>{
+        try {
+            const {email,password}=formVal
+            createUserWithEmailAndPassword(firebaseAuth,email,password)
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+    onAuthStateChanged(firebaseAuth,(currentUser=>{
+        console.log(currentUser);
+        currentUser&&navigate('/')
+    }))
+    
     return (
         <Container>
             <BackgroundImage />
@@ -27,7 +43,8 @@ const Signup = () => {
                         
                         
                     </div>
-                    <button>signup</button>
+                    {showPassword&&<button onClick={loginHelper}>signup</button>}
+                    
                 </div>
             </div>
         </Container>
