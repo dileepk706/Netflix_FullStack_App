@@ -4,7 +4,7 @@ import './App.css';
 import Login from './pages/Login';
 import Netflix from './pages/Netflix';
 import Signup from './pages/Signup';
-import './styles/tailwind.css';
+// import './styles/tailwind.css';
 
 function App() {
   return (
