@@ -9,12 +9,31 @@ const Signup = () => {
     const navigate=useNavigate()
     let [showPassword,setShowPassword]=useState(false)
     let [formVal,setFormVal]=useState({email:'',password:''})
-    const loginHelper=()=>{
+
+    let [loading,setLoading]=useState(false)
+    let [error,setError]=useState('')
+
+    const loginHelper=async()=>{
         try {
+            setLoading(true)
             const {email,password}=formVal
-            createUserWithEmailAndPassword(firebaseAuth,email,password)
+            await createUserWithEmailAndPassword(firebaseAuth,email,password)
+            setLoading(false)
         } catch (error) {
-            console.log(error.message);
+            if(error.code==='auth/email-already-in-use'){
+                setError('email-already-in-use')
+                setLoading(false)
+            }   
+            if(error.code==='Password should be at least 6 characters'){
+                setError('Password should be at least 6 characters')
+                setLoading(false)
+            }   
+            if(error.code==='auth/invalid-email' ) {
+                setError('nvalid-email')
+                setLoading(false)
+            }   
+            
+            console.log(error );
         }
     }
     onAuthStateChanged(firebaseAuth,(currentUser=>{
@@ -33,7 +52,9 @@ const Signup = () => {
                         <h4>Watch anywhere. Cancel anytime</h4>
                         <h6>Ready to watch? Enter your mail to create or restart membership</h6>
                     </div>
+                    <h3 style={{color:'red'}}>{error}</h3>
                     <div className={showPassword?"b-form":'form'}>
+                    
                         <input type="text" placeholder="Email address" value={formVal.email} onChange={(e)=>{
                             setFormVal({...formVal,email:e.target.value})
                         }} name="email" />
@@ -43,8 +64,8 @@ const Signup = () => {
                         
                         
                     </div>
-                    {showPassword&&<button onClick={loginHelper}>signup</button>}
-                    
+                    {showPassword && !loading &&<button onClick={loginHelper}>signup</button>}
+                    {loading && <span class="loader"></span>}
                 </div>
             </div>
         </Container>
