@@ -1,13 +1,22 @@
 import Navbar from "../components/Navbar"
 import home from "../assets/home.jpg"
-
+import Feature from "../components/Feature"
+import List from "../components/List"
 const Netflix=()=>{
 
     return(
-      <>
-      <Navbar></Navbar>
-      <img width='100%' src={home} alt="home" />
-      </>
+      <div>
+<Navbar></Navbar>
+      <Feature></Feature>
+       <List/>
+       <List/>
+       <List/>
+       <List/>
+       <List/>
+       <List/>
+       <List/>
+
+      </div>
       
     )
 }

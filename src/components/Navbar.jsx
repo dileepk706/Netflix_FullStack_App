@@ -57,6 +57,7 @@ const Nav = styled.div`
     z-index: 999;
     top: 0;
     background: linear-gradient(to top, transparent 0%, rgb(0, 0, 0, 0.5) 50%);
+    padding: 0 50px;
     .scroll{
         background-color: black;
         transition: 1s;
